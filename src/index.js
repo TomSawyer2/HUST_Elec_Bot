@@ -34,8 +34,10 @@ const getRemainPower = async (type, groupID, isSlient) => {
   if (type === 'update') {
     const remainPower = await loginAndGetRemainPower();
     if (remainPower === -1) {
-      const msg = '暂时不能更新数据，请稍后再试';
-      postMessageToQQGroup(msg, groupID);
+      if (!isSlient) {
+        const msg = '暂时不能更新数据，请稍后再试';
+        postMessageToQQGroup(msg, groupID);
+      }
       connection.destroy();
       return;
     }
@@ -73,13 +75,13 @@ const getRemainPower = async (type, groupID, isSlient) => {
 
 const schedule = require('node-schedule');
 const scheduleCronstyle = () => {
-  schedule.scheduleJob('0 0 3 * * *', async () => {
-    console.log('轮询周期到--11:00');
+  schedule.scheduleJob('0 0 2 * * *', async () => {
+    console.log('轮询周期到--10:00');
     await getRemainPower('update', process.env.GROUPID, true);
     checkLimit(remain_power, process.env.GROUPID);
   });
-  schedule.scheduleJob('0 0 15 * * *', async () => {
-    console.log('轮询周期到--23:00');
+  schedule.scheduleJob('0 0 14 * * *', async () => {
+    console.log('轮询周期到--22:00');
     await getRemainPower('update', process.env.GROUPID, true);
     checkLimit(remain_power, process.env.GROUPID);
   });
