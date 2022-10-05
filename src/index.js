@@ -33,6 +33,12 @@ const getRemainPower = async (type, groupID, isSlient) => {
   });
   if (type === 'update') {
     const remainPower = await loginAndGetRemainPower();
+    if (remainPower === -1) {
+      const msg = '暂时不能更新数据，请稍后再试';
+      postMessageToQQGroup(msg, groupID);
+      connection.destroy();
+      return;
+    }
     const date = new Date().toISOString();
     const params = { remain_power: Number(remainPower).toFixed(2), date: date };
     remain_power = Number(remainPower).toFixed(2);
@@ -86,10 +92,17 @@ const client = createClient(account);
 
 client.on("system.online", () => console.log("Logged in!"));
 
-client.on("system.login.slider", function (e) {
-  console.log("输入ticket：");
-  process.stdin.once("data", ticket => this.submitSlider(String(ticket).trim()));
-}).login(process.env.SLAVEPWD);
+// client.on("system.login.slider", function (e) {
+//   console.log("输入ticket：");
+//   process.stdin.once("data", ticket => this.submitSlider(String(ticket).trim()));
+// }).login(process.env.SLAVEPWD);
+
+client.on("system.login.qrcode", function (e) {
+  //扫码后按回车登录
+  process.stdin.once("data", () => {
+    this.login()
+  })
+}).login()
 
 client.on('message.group', async (msg) => {
   if (msg.raw_message === '#电费') {
