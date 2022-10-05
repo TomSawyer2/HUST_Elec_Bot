@@ -25,7 +25,9 @@ const parseCks = (cookies) => {
 const loginAndGetRemainPower = async () => {
   let cookies = [];
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.goto(process.env.QUERY_URL);
 
@@ -57,7 +59,7 @@ const loginAndGetRemainPower = async () => {
     await browser.close();
 
     return text;
-  } catch(err) {
+  } catch (err) {
     console.error(err);
     return -1;
   }
