@@ -44,3 +44,10 @@ module.exports = { mysql }
 pnpm i
 pnpm dev
 ```
+
+## 镜像打包
+
+```bash
+docker build . -t hust_elec_bot:v1.0
+docker run --name hust_elec_bot -itd hust_elec_bot:v1.0
+```
