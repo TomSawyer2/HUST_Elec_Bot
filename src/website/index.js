@@ -26,10 +26,13 @@ const loginAndGetRemainPower = async () => {
   let cookies = [];
 
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
+
   const page = await browser.newPage();
   await page.goto(process.env.QUERY_URL);
+
+  await page.setDefaultNavigationTimeout(60000);
 
   try {
     cookies = await page.cookies();
