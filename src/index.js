@@ -32,8 +32,10 @@ const getRemainPower = async (type, groupID, isSlient) => {
     if (err) console.log('error when connecting to db:', err);
   });
   if (type === 'update') {
-    const msg = '正在更新电费信息，预计一分钟内返回结果...';
-    postMessageToQQGroup(msg, groupID);
+    if (!isSlient) {
+      const msg = '正在更新电费信息，预计一分钟内返回结果...';
+      postMessageToQQGroup(msg, groupID);
+    }
     const remainPower = await loginAndGetRemainPower();
     if (remainPower === -1) {
       if (!isSlient) {
