@@ -16,9 +16,15 @@ SLAVEID=机器人QQ账号
 SLAVEPWD=机器人QQ密码
 GROUPID=通知群号
 LIMIT=电费欠费标准（单位：度）
+# HUB系统登录流程于2022秋更新
 HUST_USERNAME=HUB系统账号
 HUST_PASSWORD=HUB系统密码
 QUERY_URL=电费查询网站的url（需要去除?id=xxx)
+# 下面四个参数于2023春更新，需要在电费查询页面的localStorage中找到
+ROOM_ID=ROOM_ID
+ROOM_NAME=ROOM_NAME
+AREA_NAME=AREA_NAME
+DORMITORY_NAME=DORMITORY_NAME
 ```
 
 使用`/src/config`目录下的`elec.sql`文件创建数据库

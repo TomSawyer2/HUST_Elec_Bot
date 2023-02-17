@@ -56,6 +56,26 @@ const loginAndGetRemainPower = async () => {
     await page.waitForNavigation({
       waitUntil: "networkidle0",
     });
+
+    const roomInfo = {
+      roomId: process.env.ROOM_ID,
+      roomName: process.env.ROOM_NAME,
+      areaName: process.env.AREA_NAME,
+      dormitoryName: process.env.DORMITORY_NAME
+    };
+    const roomInfoStr = JSON.stringify(roomInfo);
+    const userId = process.env.HUST_USERNAME;
+
+    await page.evaluate((roomInfoStr, userId) => {
+      localStorage.setItem("user", roomInfoStr);
+      localStorage.setItem("userId", userId);
+    }, roomInfoStr, userId);
+
+    // 刷新页面
+    await page.reload({
+      waitUntil: "networkidle0",
+    });
+    
     const p = await page.$(".AmValue");
     const text = await page.evaluate((p) => p?.innerText, p);
 
